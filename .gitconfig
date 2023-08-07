@@ -1,0 +1,12 @@
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[user]
+	name = Warren Kim
+	email = 89424559+warrenjkim@users.noreply.github.com
+[color]
+	ui = true
+[core]
+	editor = emacs
