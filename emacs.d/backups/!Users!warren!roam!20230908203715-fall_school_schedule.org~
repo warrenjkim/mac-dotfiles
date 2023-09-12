@@ -1,0 +1,72 @@
+:PROPERTIES:
+:ID:       DDCCFC6D-A630-49EF-BC10-503A3C4232E9
+:CATEGORY: Schedule
+:END:
+#+title: Fall School Schedule
+
+
+* Weekly School Schedule
+** Monday
+| Course     | Time          | Room    |
+| MATH 110AH | 11:00 - 11:50 | MS 6228 |
+
+** Tuesday
+| Course      | Time          | Room              |
+| ENGR 111    | 08:00 - 09:50 | Boelter Hall 5249 |
+| ECE M116C   | 12:00 - 13:50 | Young Hall CS76   |
+| COM SCI 118 | 14:00 - 15:50 | Rolfe Hall 1200   |
+
+
+** Wednesday
+| Course     | Time          | Room    |
+| MATH 110AH | 11:00 - 11:50 | MS 6228 |
+
+** Thursday
+| Course      | Time          | Room              |
+| ENGR 111    | 08:00 - 09:50 | Boelter Hall 5249 |
+| MATH 110AH  | 11:00 - 11:50 | MS 6228           |
+| ECE M116C   | 12:00 - 13:50 | Young Hall CS76   |
+| COM SCI 118 | 14:00 - 15:50 | Rolfe Hall 1200   |
+
+** Friday
+| Course      | Time          | Room              |
+| ENGR 111    | 10:00 - 10:50 | Boelter Hall 4283 |
+| MATH 110AH  | 11:00 - 11:50 | MS 6228           |
+| ECE M116C   | 12:00 - 13:50 | Boelter Hall 4413 |
+| COM SCI 118 | 14:00 - 15:50 | Perloff Hall 1102 |
+
+
+* CLASS MATH110AH                                              :monday:
+SCHEDULED: <2023-10-02 Mon 11:00-11:50 +1w>
+* CLASS MATH110AH                                              :wednesday:
+SCHEDULED: <2023-10-04 Wed 11:00-11:50 +1w>
+* CLASS MATH110AH                                              :thursday:
+SCHEDULED: <2023-09-28 Thu 11:00-11:50 +1w>
+* CLASS MATH110AH                                              :friday:
+SCHEDULED: <2023-09-29 Fri 11:00-11:50 +1w>
+
+
+* CLASS ENGR 111                                                    :tuesday:
+SCHEDULED: <2023-10-03 Tue 8:00-9:50 +1w>
+* CLASS ENGR 111                                                    :thursday:
+SCHEDULED: <2023-09-28 Thu 8:00-9:50 +1w>
+* CLASS ENGR 111                                                    :friday:
+SCHEDULED: <2023-09-29 Fri 10:00-10:50 +1w>
+
+* CLASS ECE M116C                                                  :tuesday:
+SCHEDULED: <2023-10-03 Tue 12:00-13:50 +1w>
+* CLASS ECE M116C                                                  :thursday:
+SCHEDULED: <2023-09-28 Thu 12:00-13:50 +1w>
+* CLASS ECE M116C                                                  :friday:
+SCHEDULED: <2023-09-29 Fri 12:00-13:50 +1w>
+
+* CLASS COM SCI 118                                                   :tuesday:
+SCHEDULED: <2023-10-03 Tue 14:00-15:50 +1w>
+* CLASS COM SCI 118                                                   :thursday:
+SCHEDULED: <2023-09-28 Thu 14:00-15:50 +1w>
+* CLASS COM SCI 118                                                   :friday:
+SCHEDULED: <2023-09-29 Fri 14:00-15:50 +1w>
+
+* CLASS COM SCI 118                                                   :saturday:
+SCHEDULED: <2023-09-09 Sat>
+

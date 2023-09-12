@@ -1,0 +1,124 @@
+#!/bin/sh
+
+usage() {
+    echo "NAME"
+    echo "    todo - record a TODO entry into a specified org file\n"
+    echo "SYNOPSIS"
+    echo "    entry [-m | --message TARGET BDOY DEADLINE] [-h | --help]\n"
+    echo "DESCRIPTION"
+    echo "    simplifies the process of adding a TODO entry."
+    echo "OPTIONS"
+    echo "    -m, --message BDOY TIME"
+    echo "        add a short entry to BODY and specify the time the event took place."
+    echo "    -h, --help"
+    echo "        display this message."
+}
+
+
+# options
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -m|--message)
+            SHORT=1
+            TARGET="$2"
+            ENTRY="$3"
+            DEADLINE="$4"
+            if [ -z "$DEADLINE" ]; then
+                DEADLINE=$(date "+%Y-%m-%d %a")
+            fi
+            shift # remove -m
+            shift # remove target
+            shift # remove body
+            shift # remove deadline
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "invalid option: $1" >&2
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+
+# get today's date YYYY-MM-DD DAY
+DATE=$(date "+%Y-%m-%d %a")
+
+# -m flag was used
+if [ -z "$ENTRY" ]; then
+
+    DATEHMS=$(date "+%Y%m%d%H%M%S")
+    # new TODO in temp emacs file
+    tmpfile=$(mktemp TODO_entry_${DATEHMS}.org)
+    trap 'rm -f "$tmpfile"' EXIT
+
+    echo "# NOTE: lines prefixed with  '#' will be ignored except for" > $tmpfile
+    echo "#         the target and deadline parameter" >> $tmpfile
+    echo "# ------- METADATA -------" >> $tmpfile
+    echo "# TODO entry" >> $tmpfile
+    echo "# target: " >> $tmpfile
+    echo "# deadline: ${DATE}" >> $tmpfile
+    echo "# ----- END METADATA -----" >> $tmpfile
+    ${EDITOR:-emacs -nw} "$tmpfile"
+
+    TARGET="$(grep "target: " "$tmpfile" | cut -d " " -f3)"
+    ENTRY=$(grep -v "^#" "$tmpfile")
+    DEADLINE="$(grep "deadline: " "$tmpfile" | cut -d " " -f3)"
+    DEADLINE="$DEADLINE $(grep "deadline: " "$tmpfile" | cut -d " " -f4)"
+    DEADLINE="$DEADLINE $(grep "deadline: " "$tmpfile" | cut -d " " -f5)"
+
+
+    # remove leading whitespace characters
+    ENTRY="${ENTRY#"${ENTRY%%[![:space:]]*}"}"
+
+    # remove leading newlines
+    ENTRY="${ENTRY#"${ENTRY%%[!$'\n']*}"}"
+
+    rm "$tmpfile"
+fi
+
+# target file
+FILENAME="$HOME/roam/agenda/${TARGET}.org"
+
+if [ -z "$ENTRY" ]; then
+    echo "TODO entry aborted. exiting..."
+    exit 0
+fi
+
+echo "------ TODO ENTRY ------"
+echo "** TODO ${ENTRY}\n<${DEADLINE}>"
+echo "------ END  ENTRY ------"
+
+echo
+read -p "add entry to ${FILENAME}? [Y/n] " Yn
+
+if [ -z "$Yn" ]; then
+    Yn="Y"
+fi
+
+Yn=$(echo "$Yn" | tr "[:upper:]" "[:lower:]")
+
+if [ "$Yn" = "y" ]; then
+    echo "** TODO ${ENTRY}\n<${DEADLINE}>\n" >> $FILENAME
+    echo "TODO entry written to $FILENAME"
+
+    if [ ! -z $SHORT ]; then
+        emacs -nw $FILENAME
+    else
+        read -p "open file? [y/N] " Ny
+        if [ -z "$Ny" ]; then
+            Yn="N"
+        fi
+        Yn=$(echo "$Ny" | tr "[:upper:]" "[:lower:]")
+        if [ "$Ny" = "y" ]; then
+            emacs -nw $FILENAME
+        fi
+    fi
+else
+    echo "TODO entry discarded"
+fi
+
+exit

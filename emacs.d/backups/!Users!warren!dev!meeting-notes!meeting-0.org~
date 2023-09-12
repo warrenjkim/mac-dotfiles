@@ -1,0 +1,34 @@
+#+title: meeting 0
+#+date: <2023--09-07>
+
+
+[[https://github.com/warrenjkim/notes][Project Link]]
+
+* Overview
+A note repository web application for UCLA courses.
+
+* Scope
+
+* Features
+** Account
+Potentially for study groups.
+To leave reviews.
+Upload files (verified uploads).
+Credibility score.
+
+* Tech stack
+** Front end
+Angular as our primary
+Svelte as our secondary
+
+** Back end
+Gin with Go as our primary
+Django with Python as our secondary
+
+** Database
+PostgreSQL as our primary
+FirebaseDB as our reluctant secondary
+
+
+- [X] 
+  

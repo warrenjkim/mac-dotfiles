@@ -1,0 +1,98 @@
+#!/bin/sh
+
+FILENAME="$HOME/roam/daily/$(date "+%Y-%m-%d").org"
+
+usage() {
+    echo "NAME"
+    echo "    entry - record an entry into the current day's org file\n"
+    echo "SYNOPSIS"
+    echo "    entry [-m | --message BDOY TIME] [-h | --help]\n"
+    echo "DESCRIPTION"
+    echo "    simplifies the process of adding a new entry to"
+    echo "      ${FILENAME}.\n"
+    echo "OPTIONS"
+    echo "    -m, --message BDOY TIME"
+    echo "        add a short entry to BODY and specify the time the event took place."
+    echo "    -h, --help"
+    echo "        display this message."
+}
+
+ENTRY=""
+TIME=""
+
+# options
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -m|--message)
+            ENTRY="$2"
+            TIME="$3"
+            shift # remove -m
+            shift # remove body
+            shift # remove date range
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "invalid option: $1" >&2
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+# get today's date YYYY-MM-DD DAY
+DATE=$(date "+%Y-%m-%d %a")
+
+# -m flag was used
+if [ -z "$ENTRY" ]; then
+
+    DATEHMS=$(date "+%Y%m%d%H%M%S")
+    # new entry in temp emacs file
+    tmpfile=$(mktemp journal_entry.${DATEHMS})
+    trap 'rm -f "$tmpfile"' EXIT
+
+    echo "# NOTE: lines prefixed with  '#' will be ignored except for the time parameter" > $tmpfile
+    echo "# journal entry:\n# time (or range): $(date "+%H:%M")\n" >> $tmpfile
+    ${EDITOR:-emacs} "$tmpfile"
+
+    ENTRY=$(grep -v '^#' "$tmpfile")
+    TIME="$(grep 'time (or range): ' "$tmpfile" | cut -d ' ' -f5)"
+
+    # remove leading whitespace characters
+    ENTRY="${ENTRY#"${ENTRY%%[![:space:]]*}"}"
+
+    # remove leading newlines
+    ENTRY="${ENTRY#"${ENTRY%%[!$'\n']*}"}"
+
+    rm "$tmpfile"
+fi
+
+if [ -z "$ENTRY" ]; then
+    echo "entry aborted. exiting..."
+    exit 0
+fi
+
+echo "------ ENTRY ------"
+echo "* ${ENTRY}\n<${DATE} ${TIME}>"
+echo "---- END ENTRY ----"
+
+echo
+read -p "add entry to journal? [Y/n] " Yn
+
+if [ -z "$Yn" ]; then
+    Yn="Y"
+fi
+
+Yn=$(echo "$Yn" | tr "[:upper:]" "[:lower:]")
+
+if [ "$Yn" = "y" ]; then
+    echo "* ${ENTRY}\n<${DATE} ${TIME}>" >> $FILENAME
+    echo "entry written to $FILENAME"
+else
+    echo "formatted:\n* ${ENTRY}\n<${DATE} ${TIME}>\n\nraw:\n${ENTRY}\n${TIME}" > discarded.entry
+    echo "entry discarded (located in discarded.entry)"
+fi
+
+exit

@@ -1,0 +1,62 @@
+:PROPERTIES:
+:ID:       A58705CC-625D-432E-8A41-8685FC129959
+:END:
+#+title: Archive
+#+category: Archive
+#+filetags: archive
+
+
+
+* September
+** DONE Fix email in https://warrenkim.me                        :portfolio:
+CLOSED: [2023-09-09 Sat 12:39] DEADLINE: <2023-09-09 Sat 23:59>
+:PROPERTIES:
+:ID:       59D230B3-1470-4010-A5F7-2DC124561EAE
+:END:
+:LOGBOOK:
+- State "DONE"       from "WORK"       [2023-09-09 Sat 12:39]
+:END:
+
+** DONE Leave for Redding from Irvine
+CLOSED: [2023-09-09 Sat 11:01] SCHEDULED: <2023-09-08 Fri 22:00-10:00>
+:PROPERTIES:
+:ID:       705D0932-DB1D-43FF-AC89-575731E53B19
+:END:
+:LOGBOOK: 
+- State "DONE"       from "WORK"       [2023-09-09 Sat 09:10]
+:END:
+- Estimated 12 hr drive.
+- Actual 12 hr 10 min drive. 21:00 - 9:10
+
+** DONE Apply for credit card                                      :finance:
+CLOSED: [2023-09-09 Sat 15:40] SCHEDULED: <2023-09-09 Sat 14:00> DEADLINE: <2023-09-09 Sat 23:59>
+:PROPERTIES:
+:ID:       50B06FC7-99C9-43FB-84B9-38C263F623A4
+:END:
+:LOGBOOK:
+- State "DONE"       from "WORK"       [2023-09-09 Sat 15:40]
+:END:
+
+** DONE Apply for at least 5 jobs                              :application:
+CLOSED: [2023-09-09 Sat 12:03] DEADLINE: <2023-09-09 Sat 23:59>
+:PROPERTIES:
+:ID:       89591A90-5211-4E53-8FF7-770D76AA6FE0
+:END:
+:LOGBOOK:
+- State "DONE"       from "WORK"       [2023-09-09 Sat 12:03]
+:END:
+
+** DONE build out journal commands                                   :emacs:
+CLOSED: [2023-09-10 Sun 17:33] DEADLINE: <2023-09-10 Sun 23:59>
+:PROPERTIES:
+:ID:       CBB582A9-40C5-4651-89C5-2363C03777BB
+:END:
+:LOGBOOK:
+- State "DONE"       from "WORK"       [2023-09-10 Sun 17:33]
+:END:
+- add a TODO command.
+
+
+* October
+* November
+* December

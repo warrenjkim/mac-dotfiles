@@ -1,0 +1,44 @@
+:PROPERTIES:
+:ID:       8CC6D675-F00F-432E-B88B-AD09388E4A65
+:END:
+#+title: Meeting 0
+#+date: <2023-09-07>
+#+filetags: Projects
+
+
+* TODO We need to come up with a name lol
+
+* Overview
+A note repository web application for UCLA courses.
+
+* Scope
+Start small with just courses in the CS major. Scale out to different majors, then schools.
+
+* Features
+** TODO Upload and downlod files (pdf only)
+- [ ] Establish a connection with the database.
+- [ ] Set up database schema.
+** TODO Account
+- [ ] Potentially for study groups.
+- [ ] To leave reviews.
+- [ ] Upload files (verified uploads).
+- [ ] Credibility score.
+** TODO Analytics
+- [ ] File analysis for upload/download count.
+** TODO Tags
+- [ ] Tagging system for files.
+- [ ] Potentially for courses and keywords.
+  
+
+* Tech stack
+** Front end
+- Angular as our primary
+- Svelte as our secondary
+
+** Back end
+- Gin with Go as our primary
+- Django with Python as our secondary
+
+** Database
+- PostgreSQL as our primary
+- FirebaseDB as our reluctant secondary

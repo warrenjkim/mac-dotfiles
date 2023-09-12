@@ -1,0 +1,128 @@
+./entry -m "this is a test"
+./entry -m "test"
+./entry -m "test" "10"
+./entry --help
+./entry --message "body goes here" "10:20-10:30"
+./entry --message "body goes here"
+git commit --help
+./entry -h
+./entry --help
+./entry --help
+./entry --help
+./entry --help
+./entry --help
+./entry -h
+./entry --help
+./entry -h
+./entry
+./entry
+entry 
+./entry 
+./entry 
+./entry 
+./entry 
+yabai --restart-service
+./entry
+./entry 
+./entry 
+./entry -m "test entry for message" "22:00-22:10"
+./entry
+./ entry 
+./entry 
+./entry 
+./entry
+./entry 
+./entry
+./entry 
+./entry 
+./entry
+./entry
+ls
+./entry
+./entry
+./entry 
+entry 
+./entry 
+man grep
+./entry
+entry 
+./entry 
+./entry 
+./entry -m "test" "2"
+./entry
+./entry
+./entry
+./entry -m "test"
+./entry 
+entry 
+./entry 
+./entry
+./entry
+./entry
+./entry
+entry 
+./entry 
+./entry
+jjj./entry
+entry a 
+./entry 
+l
+./entry
+./entry 
+ls
+ls
+rm Sat journal_entry.{date ls
+ls
+rm journal_entry.2023-09-09 +%Y%m%d} 
+ls
+./entry
+ls
+./entry
+./entry
+./entry -m "test" ""
+./entry -m "" ""
+./entry -m "d" ""
+./entry -m "d" ""
+ls
+emacs discarded.entry 
+ls
+cat discarded.entry 
+./entry -m "testing raw" "22:00-23:00"
+cat discarded.entry 
+cat discarded.entry 
+./entry -m "testing raw" "22:00-23:00"
+./entry -m "testing raw" "22:00-23:00"
+cat discarded.entry 
+./entry -m "testing raw" "22:00-23:00"
+cat discarded.entry 
+./entry -m "testing a new entry" "23:10"
+cat ~/roam/daily/2023-09-09.org
+ls
+./entry
+./entry 
+cd
+cd roam/daily/
+ls
+cat ~/roam/daily/2023-09-09.org
+./entry
+cd
+ls
+cd dotfiles/bin/l
+ls
+cd dotfiles/bin/ls
+./entry 
+cat ~/roam/daily/2023-09-09.org
+./entry 
+entry 
+./entry 
+./entry 
+./entry 
+ls
+ln --help
+ln -s ~/roam/daily/2023-09-09.org today-journal
+emacs today-journal 
+rm today-journal 
+./entry -m "finished project (entry command)" "23:20"
+entry
+todo
+todo -m "test" ""

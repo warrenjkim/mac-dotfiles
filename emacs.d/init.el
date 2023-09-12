@@ -1,0 +1,450 @@
+;;; init.el --- personal Emacs configuration
+
+;;; Commentary:
+;; config packages for Emacs
+
+
+;;; Code:
+
+;; Set the backup directory
+(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+
+;; common lisp functions
+(require 'cl-lib)
+
+;; no startup message
+(setq inhibit-startup-message t)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+
+;; Measuring startup time
+(defconst emacs-start-time (current-time))
+(add-hook 'after-init-hook
+          (lambda ()
+            (run-with-timer
+             1 nil ; delay by 1 second
+             (lambda ()
+               (message "Emacs initialized in %s"
+                        (format "%.2f seconds"
+                                (- (float-time (time-subtract (current-time)
+                                                           emacs-start-time)) 1)))))))
+;; enable line numbers
+(global-linum-mode t)
+(global-display-line-numbers-mode)
+(setq display-line-numbers-type 'relative)
+(column-number-mode t)
+
+;; spaces no tabs
+(setq-default indent-tabs-mode nil)
+
+;; packages
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+;; use-package comments:
+;; (use-package package
+;;   installed on startup
+;;   custom config
+;;   enabled globally
+;; )
+
+
+
+;; THEME ;;
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-zenburn t))
+;; END THEME ;;
+
+;; magit
+(use-package magit
+  :ensure t)
+
+;; powerline
+(use-package powerline
+  :ensure t
+  :config
+  (powerline-center-evil-theme))
+
+
+;; rainbow-delimiters
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;; rainbow-mode
+(use-package rainbow-mode
+  :ensure t
+  :hook (prog-mode . rainbow-mode))
+
+(use-package ivy
+  :ensure t
+  :diminish
+  :bind (("C-s" . swiper))
+  :init
+  (ivy-mode))
+
+;; savehist
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; marginalia
+(use-package marginalia
+  :after vertico
+  :ensure t
+  :custom
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotatoors-light nil))
+  :init
+  (marginalia-mode))
+
+
+;; GLOBAL PACKAGES ;;
+;; evil mode
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1))
+
+;; company (auto-complete)
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
+;; flycheck (syntax checking)
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode))
+
+;; lsp-mode (Language Server Protocol)
+(use-package lsp-mode
+  :ensure t
+  :hook ((c-mode . lsp)
+         (c++-mode . lsp)
+         (js-mode . lsp)
+         (typescript-mode . lsp))
+  :commands lsp)
+
+;; ispell (spell checking)
+(use-package ispell
+  :hook (text-mode . turn-on-flyspell))
+;; END GLOBAL PACKAGES ;;
+
+
+
+
+
+;; C AND C++ ;;
+;; clang-format for code formatting
+(use-package clang-format
+  :ensure t
+  :defer t
+  :config
+  (global-set-key [C-M-\;] 'clang-format-region))
+
+;; compile shortcuts
+(with-eval-after-load 'cc-mode
+  (define-key c-mode-map (kbd "C-c C-c") 'compile)
+  (define-key c++-mode-map (kbd "C-c C-c") 'compile))
+
+;; Irony for better autocompletion and type checking
+(use-package irony
+  :ensure t
+  :defer t
+  :hook ((c-mode . irony-mode)
+         (c++-mode . irony-mode))
+  :config
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
+;; Company backend for irony
+(use-package company-irony
+  :ensure t
+  :defer t
+  :config
+  (add-to-list 'company-backends 'company-irony))
+
+;; CMake mode
+(use-package cmake-mode
+  :ensure t
+  :defer t
+  :mode (("CMakeLists\\.txt\\'" . cmake-mode)
+         ("\\.cmake\\'" . cmake-mode)))
+
+;; Company headers for C/C++ header completion
+(use-package company-c-headers
+  :ensure t
+  :defer t
+  :config
+  (add-to-list 'company-backends 'company-c-headers))
+
+;; GNU Global support for tagging
+(use-package ggtags
+  :ensure t
+  :defer t
+  :hook ((c-mode . ggtags-mode)
+         (c++-mode . ggtags-mode)))
+
+;; flycheck-irony for better syntax checking
+(use-package flycheck-irony
+  :ensure t
+  :defer t
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+;; END C AND C++ ;;
+
+
+
+
+
+;; JAVASCRIPT/TYPESCRIPT ;;
+;; js2-mode (syntax highlighting)
+(use-package js2-mode
+  :ensure t
+  :defer t
+  :mode ("\\.js\\'" . js2-mode))
+
+;; rjsx-mode (react and jsx)
+(use-package rjsx-mode
+  :ensure t
+  :defer t
+  :mode ("\\.js\\'" . rjsx-mode))
+
+;; typescript-mode (TypeScript support)
+(use-package typescript-mode
+  :ensure t
+  :defer t
+  :mode ("\\.ts\\'" . typescript-mode))
+
+;; tide (typescript support)
+(use-package tide
+  :ensure t
+  :defer t
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)))
+
+;; Code formatting with Prettier
+(use-package prettier-js
+  :ensure t
+  :defer t
+  :hook ((js-mode typescript-mode) . prettier-js-mode))
+;; END JAVASCRIPT/TYPESCRIPT ;;
+
+
+
+
+
+;; HTML AND CSS ;;
+;; Live Preview with impatient-mode
+(use-package impatient-mode
+  :ensure t
+  :defer t
+  :hook (html-mode . impatient-mode))
+
+;; Web Mode for better syntax highlighting and indentation
+(use-package web-mode
+  :ensure t
+  :defer t
+  :mode ("\\.html?\\'")
+  :config
+  (setq web-mode-engines-alist
+        '(("django" . "\\.html\\'")))
+  (setq web-mode-ac-sources-alist
+        '(("css" . (ac-source-css-property))
+          ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
+  (setq web-mode-enable-auto-closing t)
+  (setq web-mode-enable-auto-quoting t))
+;; END HTML AND CSS ;;
+
+
+
+
+
+;; LATEX ;;
+;; tex
+(use-package tex
+  :ensure auctex
+  :defer t
+  :hook ((LaTeX-mode . turn-on-auto-fill)
+         (LaTeX-mode . LaTeX-math-mode)
+         (LaTeX-mode . flyspell-mode)
+         (LaTeX-mode . turn-on-reftex))
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+  (add-to-list 'TeX-command-list
+               '("XeLaTeX" "%`xelatex%(mode)%' %t"
+                 TeX-run-TeX nil t))
+  (setq TeX-command-default "XeLaTeX")
+  (setq TeX-PDF-mode t))
+
+;; zathura
+(setq TeX-view-program-list '(("Zathura" "zathura %o")))
+(setq TeX-view-program-selection '((output-pdf "Zathura")))
+(setq TeX-source-correlate-start-server t)
+
+;; Enable SyncTeX correlation
+(setq TeX-source-correlate-mode t)
+(setq TeX-source-correlate-method 'synctex)
+;; END LATEX ;;
+
+
+
+
+
+;; PYTHON ;;
+;; Elpy for Python Development
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (elpy-enable))
+
+;; Black for code formatting
+(use-package blacken
+  :ensure t
+  :defer t
+  :hook ((python-mode . blacken-mode))
+  :config
+  (define-key python-mode-map (kbd "C-c C-f") 'blacken-buffer))
+
+;; python3 as default interpreter
+(setq elpy-rpc-python-command "python3")
+;; END PYTHON ;;
+
+
+
+
+
+;; ORG MODE ;;
+(defun org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (auto-fill-mode 0)
+  (visual-line-mode 1)
+  (setq evil-auto-indent nil))
+
+(use-package org
+  :ensure t
+  :defer t
+  :hook (org-mode . org-mode-setup)
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
+         ("C-c r" . org-refile))
+  :config
+  (setq org-ellipsis " ▾")
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+  
+  (setq org-agenda-files '("~/org/"
+                           "~/roam/"
+                           "~/roam/agenda/"
+                           "~/roam/agenda/school/"
+                           "~/roam/daily/"
+                           ))
+
+
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "WORK(W)" "|" "DONE(d!)")
+          (sequence "HOMEWORK(w)" "|" "COMPLETE(c)")
+          (sequence "CLASS(s)" "|" "CLASSEND(e)")))
+
+  (setq org-agenda-custom-commands
+        '(("d" "Dashboard"
+         ((agenda "" ((org-deadline-warning-days 7)
+                      (org-agenda-files '("~/org/"
+                                          "~/roam/agenda/"
+                                          "~/roam/agenda/school/"))))
+          (todo "TODO" ((org-agenda-overriding-header "TODO's")))
+          (todo "HOMEWORK" ((org-agenda-overriding-header "Active Homework Assignments")))
+          (todo "WORK" ((org-agenda-overriding-header "Work Schedule")))
+          (agenda "" ((org-agenda-span 1)
+                      (org-agenda-overriding-header "Classes Today")
+                      (org-agenda-files '("~/roam/agenda/school/fall_school_schedule.org"))))
+          ))
+          ("w" "Homework Assignments"
+           ((agenda "" ((org-deadline-warning-days 7)))
+           (todo "HOMEWORK" ((org-agenda-overriding-header "Active Homework Assignments")))))
+          
+          ;; CHANGES PER QUARTER ;;
+          ("c" "Course Breakdown"
+           ((tags-todo "+MATH110AH"
+                       ((org-agenda-overriding-header "MATH 110AH")))
+            (tags-todo "+ENGR111"
+                       ((org-agenda-overriding-header "ENGR 111")))
+            (tags-todo "+ECEM116C"
+                       ((org-agenda-overriding-header "ECE M116C")))
+            (tags-todo "+CS118"
+                       ((org-agenda-overriding-header "COM SCI 118")))
+            (todo "COMPLETE"
+                  ((org-agenda-overriding-header "Completed Homework Assignments")
+                   (org-agenda-files org-agenda-files)))
+            ))
+          ;; ------------------- ;;
+
+          ("W" "Work"
+           ((todo "WORK"
+                  ((org-agenda-overriding-header "Work")))))
+
+          ("j" "Today's Journal"
+           ((agenda "" ((org-agenda-span 1)
+                        (org-agenda-files '("~/roam/daily/"))))))))
+
+
+  (setq org-refile-targets
+        '((nil :maxlevel . 1)
+          ("~/roam-archive/archive.org" :maxlevel . 1)))
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+;; CHANGES PER QUARTER ;;
+  (setq org-tag-alist
+        '(("MATH110AH" . ?a)
+          ("ECEM116C" . ?s)
+          ("ENGR111" . ?d)
+          ("CS118" . ?f)
+          ))
+;; ------------------- ;;
+  )
+
+;; org-bullets
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+;; org-roam
+(use-package org-roam
+  :ensure t
+  :defer t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/roam/")
+  (org-roam-complete-everywhere t)
+  (org-roam-capture-templates
+   '(("d" "default" plain
+      "%?"
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: ${Tag(s)}")
+      :unnarrowed t)
+
+     ))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n a" . org-roam-alias-add)
+         ("C-c n c" . org-id-get-create))
+  :config
+  (org-roam-setup)
+  )
+;; END ORG MODE ;;

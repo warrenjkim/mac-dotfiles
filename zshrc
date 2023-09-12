@@ -4,8 +4,8 @@
 
 # create aliases
 
-# alias: ls
 alias ls='ls -lAFGh'
+alias emacs='emacs -nw'
 
 
 
@@ -17,9 +17,12 @@ alias ls='ls -lAFGh'
 PROMPT='%1~ %L %# '
 
 # time of day
-RPROMPT='%*'
+autoload -U colors && colors
+RPROMPT='%(?..(%?%) )%*'
 
 # add locations to the $PATH variable
+export PATH="$PATH:$HOME/.local/bin"
+
 
 # write handy functions
 function mkcd() {
@@ -29,6 +32,5 @@ function mkcd() {
 # use zsh plugins
 
 # ... other
-
-
-
+eval "$(starship init zsh)"
+neofetch

@@ -1,0 +1,26 @@
+:PROPERTIES:
+:ID:       83F8093F-76FA-4752-B093-21E1AC5250E3
+:CATEGORY: Projects
+:END:
+#+title: Projects
+
+* emacs-related                                                    :emacs:
+** TODO figure out what makes my emacs weird
+:PROPERTIES:
+:ID:       627C2F1B-A1B0-41F3-848A-32373A9B2BCA
+:END:
+- currently the auto-fill mode is bugging out.
+DEADLINE: <2023-09-11 Mon 23:59>
+
+* asahi linux configuration                                 :linux:
+** TODO connect to wifi
+:PROPERTIES:
+:ID:       166B4675-05AE-4E29-A0F0-5731D0F3C499
+:END:
+DEADLINE: <2023-09-11 Mon 23:59>
+** NEXT set up window manager (hyprland)
+:PROPERTIES:
+:ID:       209346BB-7FE2-4E17-9FBC-475F55433035
+:END:
+DEADLINE: <2023-09-11 Mon 23:59>
+
